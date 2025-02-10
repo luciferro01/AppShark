@@ -4,14 +4,17 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.ImageBitmap
 import java.util.zip.ZipFile
 
 data class AppInfo(
     val packageName: String,
     val appName: String,
-    val technology: String
+    val technology: String,
+    val icon: ImageBitmap
 )
-
 fun getCategorizedApps(context: Context): Triple<List<AppInfo>, List<AppInfo>, List<AppInfo>> {
     val pm = context.packageManager
     val packages = pm.getInstalledPackages(PackageManager.GET_ACTIVITIES)
@@ -24,7 +27,10 @@ fun getCategorizedApps(context: Context): Triple<List<AppInfo>, List<AppInfo>, L
         val appName = pkg.applicationInfo?.let { pm.getApplicationLabel(it).toString() }
         val packageName = pkg.packageName
         val technology = detectTechnology(pkg)
-        val appInfo = appName?.let { AppInfo(packageName, it, technology) }
+        val drawable = pkg.applicationInfo?.let { pm.getApplicationIcon(it) }
+        val bitmap = (drawable as? BitmapDrawable)?.bitmap
+        val icon = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
+        val appInfo = appName?.let { AppInfo(packageName, it, technology, icon) }
         appInfo?.let {
             allApps.add(it)
             val isSystemApp = (pkg.applicationInfo?.flags ?: 0) and ApplicationInfo.FLAG_SYSTEM != 0
