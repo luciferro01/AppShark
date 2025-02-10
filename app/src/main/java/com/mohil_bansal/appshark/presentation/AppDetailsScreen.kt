@@ -27,6 +27,11 @@ fun AppDetailsScreen(
             CircularProgressIndicator()
         }
     } else {
-        AppDescriptionScreen(appDetails = appDetails!!, onBack = onBack)
+//        AppDescriptionScreen(appDetails = appDetails!!, onBack = onBack)
+    AppDescriptionScreen(
+        packageName = packageName,
+        onBack = onBack,
+        viewModel = viewModel
+    )
     }
 }
