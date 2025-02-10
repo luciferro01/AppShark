@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <queries>
+        <!-- Query for apps whose main launcher activity is visible -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+        </intent>
+        <!-- Explicitly request visibility for apps with Flutter components -->
+        <package android:name="io.flutter.embedding.android" />
+        <!-- And for apps using React Native -->
+        <package android:name="com.facebook.react" />
+    </queries>
 
     <application
         android:allowBackup="true"
