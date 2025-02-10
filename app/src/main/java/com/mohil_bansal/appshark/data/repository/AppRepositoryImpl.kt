@@ -9,6 +9,8 @@ import com.mohil_bansal.appshark.domain.models.AppDetails
 import com.mohil_bansal.appshark.domain.repository.AppRepository
 import java.util.zip.ZipFile
 import android.os.Build
+import androidx.compose.ui.graphics.ImageBitmap
+import com.mohil_bansal.appshark.utils.Helper
 
 class AppRepositoryImpl(private val context: Context) : AppRepository {
     private val pm: PackageManager = context.packageManager
@@ -18,6 +20,8 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
             packageName,
             PackageManager.GET_ACTIVITIES or PackageManager.GET_META_DATA or PackageManager.GET_PROVIDERS or PackageManager.GET_PERMISSIONS
         )
+        val icon = pkg.applicationInfo?.let { Helper().getAppIconAsImageBitmap(pm, it) } ?: ImageBitmap(1, 1)
+
 
         // Get the app icon and convert it (assumes BitmapDrawable; you might need to handle other types)
         val drawable = pkg.applicationInfo?.let { pm.getApplicationIcon(it) }
@@ -71,7 +75,7 @@ class AppRepositoryImpl(private val context: Context) : AppRepository {
             AppDetails(
                 packageName = packageName,
                 appName = it,
-                icon = imageBitmap,
+                icon = icon,
                 architecture = architecture,
                 language = language,
                 activities = activities,

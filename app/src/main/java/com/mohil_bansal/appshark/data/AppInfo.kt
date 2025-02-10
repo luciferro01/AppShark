@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.ImageBitmap
+import com.mohil_bansal.appshark.utils.Helper
 import java.util.zip.ZipFile
 
 data class AppInfo(
@@ -29,7 +30,9 @@ fun getCategorizedApps(context: Context): Triple<List<AppInfo>, List<AppInfo>, L
         val technology = detectTechnology(pkg)
         val drawable = pkg.applicationInfo?.let { pm.getApplicationIcon(it) }
         val bitmap = (drawable as? BitmapDrawable)?.bitmap
-        val icon = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
+//        val icon = bitmap?.asImageBitmap() ?: androidx.compose.ui.graphics.ImageBitmap(1, 1)
+        val icon = pkg.applicationInfo?.let { Helper().getAppIconAsImageBitmap(pm, it) } ?: ImageBitmap(1, 1)
+
         val appInfo = appName?.let { AppInfo(packageName, it, technology, icon) }
         appInfo?.let {
             allApps.add(it)
