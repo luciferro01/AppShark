@@ -1,5 +1,6 @@
 package com.mohil_bansal.appshark
 
+import AppListScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,7 +16,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.mohil_bansal.appshark.presentation.AppDetailsScreen
-import com.mohil_bansal.appshark.presentation.AppListScreen
 import com.mohil_bansal.appshark.ui.theme.AppSharkTheme
 
 class MainActivity : ComponentActivity() {
