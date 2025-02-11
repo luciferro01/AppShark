@@ -1,3 +1,5 @@
+package com.mohil_bansal.appshark.presentation.AppList
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -27,8 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.mohil_bansal.appshark.AppList
-import com.mohil_bansal.appshark.presentation.AppListViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mohil_bansal.appshark.data.AppInfo
 

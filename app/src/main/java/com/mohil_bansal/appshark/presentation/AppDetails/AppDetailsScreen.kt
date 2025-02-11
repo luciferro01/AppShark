@@ -1,4 +1,4 @@
-package com.mohil_bansal.appshark.presentation
+package com.mohil_bansal.appshark.presentation.AppDetails
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

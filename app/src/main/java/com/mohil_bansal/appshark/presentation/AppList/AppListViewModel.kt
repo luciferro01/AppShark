@@ -1,4 +1,4 @@
-package com.mohil_bansal.appshark.presentation
+package com.mohil_bansal.appshark.presentation.AppList
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
