@@ -47,7 +47,8 @@ fun getCategorizedApps(context: Context): Triple<List<AppInfo>, List<AppInfo>, L
     return Triple(sideloadedApps, systemApps, allApps)
 }
 
-fun detectTechnology(pkg: PackageInfo): String {
+private fun detectTechnology(pkg: PackageInfo): String {
+    // First, try to detect by checking activity names.
     pkg.activities?.forEach { activity ->
         val actName = activity.name
         when {
@@ -67,19 +68,27 @@ fun detectTechnology(pkg: PackageInfo): String {
                 return "Jetpack Compose"
         }
     }
-    // If no framework marker is found, differentiate between Kotlin and Java.
+    // If activity markers didn't work, inspect the APK's native libraries.
     try {
         val sourceDir = pkg.applicationInfo?.sourceDir ?: return "Native (Java)"
         ZipFile(sourceDir).use { zip ->
-            // If any file in META-INF ends with ".kotlin_module", assume the app uses Kotlin.
-            zip.entries().asSequence().forEach { entry ->
-                if (entry.name.endsWith(".kotlin_module")) {
-                    return "Native (Kotlin)"
-                }
+            // Cache entries to avoid multiple iterations.
+            val entries = zip.entries().asSequence().toList()
+            // Check for Flutter: all Flutter apps include libflutter.so.
+            if (entries.any { it.name.contains("libflutter.so") }) {
+                return "Flutter"
+            }
+            // Check for React Native: many RN apps include libreactnativejni.so.
+            if (entries.any { it.name.contains("libreactnativejni.so") }) {
+                return "React Native"
+            }
+            // Check for Kotlin: presence of .kotlin_module files.
+            if (entries.any { it.name.endsWith(".kotlin_module") }) {
+                return "Native (Kotlin)"
             }
         }
     } catch (e: Exception) {
-
+        // In case of error, fall back to native Java.
         return "Native (Java)"
     }
     return "Native (Java)"
