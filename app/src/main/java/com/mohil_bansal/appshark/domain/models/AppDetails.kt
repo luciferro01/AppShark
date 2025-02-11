@@ -8,7 +8,7 @@ data class AppDetails(
     val icon: ImageBitmap,
     val architecture: String,
     val language: String,
-    val minSdkVersion: Int,
+    val minSdkVersion: Double,
     val targetSdkVersion: Int,
     val compiledVersion: String,
     val activities: List<String>,
